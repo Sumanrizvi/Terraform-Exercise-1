@@ -17,7 +17,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "snakegame-instance" {
     ami           = data.aws_ami.ubuntu.id
     instance_type = "t3.micro"
-    key_name      = aws_key_pair.snakegame-keypair.name
+    key_name      = aws_key_pair.snakegame-keypair.id
     subnet_id     = aws_subnet.public-subnet.id
     iam_instance_profile = aws_iam_instance_profile.snakegame-instanceprofile.name
 
