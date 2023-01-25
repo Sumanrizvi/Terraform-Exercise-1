@@ -80,3 +80,45 @@ resource "aws_eip" "snakegame-natgateway-elastic-ip" {
     Name = "Suman-SnakeGame-ElasticIP"
   }
 }
+
+resource "aws_security_group" "ports" {
+  name        = "Snake Game"
+  description = "Snake Game"
+  vpc_id      = aws_vpc.snakegame-vpc.id
+
+  ingress {
+    description      = "World to HTTPS"
+    from_port        = 0.0.0.0
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = [aws_vpc.snakegame-vpc.cidr_block]
+  }
+
+  ingress {
+    description      = "My Computer to SSH"
+    from_port        = 76.89.154.56
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = [aws_vpc.snakegame-vpc.cidr_block]
+  }
+
+  ingress {
+    description      = "World to HTTPD"
+    from_port        = 0.0.0.0
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = [aws_vpc.snakegame-vpc.cidr_block]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    Name = "allow_tls"
+  }
+}
